@@ -67,5 +67,6 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "empty game project 5.slnx"
+    "dotnet.defaultSolution": "empty test project 6.slnx",
+    "dotnet.enableWorkspaceBasedDevelopment": false
 }
