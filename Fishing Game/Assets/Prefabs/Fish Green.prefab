@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1533533072944256448}
   - component: {fileID: 8579323297331390707}
   m_Layer: 3
-  m_Name: Fish Red
+  m_Name: Fish Green
   m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,7 +70,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3a336ccce1ff843e487ede62accd31bf, type: 2}
+  - {fileID: 2100000, guid: 30f5167481f0a49038e57cf364e48c3f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
