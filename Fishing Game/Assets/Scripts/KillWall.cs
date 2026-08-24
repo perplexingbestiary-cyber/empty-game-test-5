@@ -7,6 +7,9 @@ public class KillWall : MonoBehaviour
         if(other.gameObject.CompareTag("Fish")){
             Destroy(other.gameObject);
         }
-        Debug.Log("entered kill collider");
+        if(other.gameObject.CompareTag("Barrel")){
+            Destroy(other.gameObject);
+        }
+        //Debug.Log("entered kill collider");
     }
 }
