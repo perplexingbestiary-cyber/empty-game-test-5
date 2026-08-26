@@ -9,6 +9,8 @@ public PlayerController PlayerControllerScript;
 public LureMovement LureMovement;
 public CameraFollow CameraFollow;
 public LineMovement LineMovement;
+public MeshRenderer Lure;
+public GameObject Line;
 
 
 void OnTriggerEnter2D()
@@ -26,12 +28,20 @@ void Update(){
             PlayerControllerScript.enabled = false;
             LureMovement.enabled = true;
             LineMovement.enabled = true;
+
+            Line.SetActive(true);
+            Lure.enabled = true;
+
             CameraFollow.FollowLure();
         }
     else if(Input.GetKeyDown(KeyCode.E) && ready && !PlayerControllerScript.enabled){
         PlayerControllerScript.enabled = true;
         LureMovement.enabled = false;
         LineMovement.enabled = false;
+
+        Line.SetActive(false);
+        Lure.enabled = false;
+
         CameraFollow.FollowPlayer();
         LureMovement.ResetLure();
         LineMovement.ResetLine();

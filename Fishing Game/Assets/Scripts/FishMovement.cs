@@ -7,10 +7,17 @@ public class FishMovement : MonoBehaviour
     //public Transform lure;
     public bool caught;
     public bool landed;
+    public bool destroyed;
+    public bool night;
+
     private GameObject lure;
     private Rigidbody2D rb;
     public CapsuleCollider2D Collider;
     public LureMovement lureScript;
+
+    public GameObject shopItem;
+
+    private InventoryController inventoryController;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,11 +33,19 @@ public class FishMovement : MonoBehaviour
         lureScript = lure.GetComponent<LureMovement>();
 
         rb = GetComponent<Rigidbody2D>();
+        inventoryController = FindAnyObjectByType<InventoryController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(landed && !destroyed && night)
+        {
+            destroyed = true;
+            //night = false;
+            Destroy(gameObject);
+        }
+
         if(!caught)
         {
             if(!right)
@@ -56,13 +71,30 @@ public class FishMovement : MonoBehaviour
                 Collider.enabled = true;
 
                 lureScript.Empty();
+/*
+                Item item = GetComponent<Item>();
+                if(item != null)
+                {
+                */
+                    bool itemAdded = inventoryController.AddItem(shopItem);
+
+                    if (itemAdded)
+                    {
+                        //Destroy(gameObject);
+                    }
+                
+                
             }
             else if (!landed)
             {
-            transform.position = lure.transform.position;
-            transform.rotation = Quaternion.Euler(0, 0, 90); 
+                if(lure != null)
+                {
+                    transform.position = lure.transform.position;
+                }
+                
+                transform.rotation = Quaternion.Euler(0, 0, 90); 
 
-            lureScript.Full();
+                lureScript.Full();
             }
             
 
@@ -74,6 +106,11 @@ public class FishMovement : MonoBehaviour
     public void KillFish()
     {
         Destroy(gameObject);
+    }
+
+    public void Night()
+    {
+        night = true;
     }
 
     void OnTriggerEnter2D(Collider2D other)

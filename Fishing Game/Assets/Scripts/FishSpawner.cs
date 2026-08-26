@@ -7,6 +7,8 @@ public class FishSpawner : MonoBehaviour
     public float fishSpawnY;
     public int fishSpawnX;
 
+    public bool ready;
+
     public float currentTime;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,8 +24,20 @@ public class FishSpawner : MonoBehaviour
         fishSpawnX = Random.Range(0, 2);
         fishSpawnY = Random.Range(-1.5f, -15);
 
+        if(currentTime >= 2f && ready)
+        {
+            if(fishSpawnX == 0){
+                Instantiate(Fish2, new Vector3(-26f, fishSpawnY, 0), Quaternion.identity);
+            }
+            else if(fishSpawnX != 0){
+                Instantiate(Fish2, new Vector3(-56f, fishSpawnY, 0), Quaternion.identity);
+            }
+            ready = false;
+        }
 
-        if(currentTime >= 2f){
+
+        if(currentTime >= 4f)
+        {
             if(fishSpawnX == 0){
                 Instantiate(Fish, new Vector3(-26f, fishSpawnY, 0), Quaternion.identity);
             }
@@ -31,6 +45,7 @@ public class FishSpawner : MonoBehaviour
                 Instantiate(Fish, new Vector3(-56f, fishSpawnY, 0), Quaternion.identity);
             }
             currentTime = 0;
+            ready = true;
         }
     }
 }

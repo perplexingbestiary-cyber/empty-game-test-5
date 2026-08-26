@@ -112,6 +112,7 @@ MonoBehaviour:
   landed: 0
   Collider: {fileID: 8579323297331390707}
   lureScript: {fileID: 0}
+  shopItem: {fileID: 4235169909513942744, guid: 8d4126321f5374f6ca3919f47371eff4, type: 3}
 --- !u!50 &-800032147922789998
 Rigidbody2D:
   serializedVersion: 5

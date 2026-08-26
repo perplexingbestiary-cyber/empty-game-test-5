@@ -38,5 +38,6 @@ public class LineMovement : MonoBehaviour
     public void ResetLine()
     {
         transform.position = new Vector3(-41f, 0.6f, 0.1f);
+        transform.localScale = new Vector3(0.1f, -scaling*(transform.position.y - 0.6f), 0.1f);
     }
 }
