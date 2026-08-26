@@ -579,6 +579,112 @@ Transform:
   - {fileID: 1681991467}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &180712975
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 180712979}
+  - component: {fileID: 180712978}
+  - component: {fileID: 180712977}
+  - component: {fileID: 180712980}
+  m_Layer: 0
+  m_Name: Shop Detector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!61 &180712977
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180712975}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.103925824, y: 0.1961669}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 4.9153395, y: 0.6076662}
+  m_EdgeRadius: 0
+--- !u!33 &180712978
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180712975}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &180712979
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180712975}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.73, y: 0.5508, z: 0}
+  m_LocalScale: {x: 1.3075354, y: 9.868489, z: 0.01}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &180712980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180712975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34939139c7f24e91bcc263fa3e55498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  ready: 0
+  currentTime: 0
+  fishingTime: 0
+  fightingTime: 0
+  PlayerControllerScript: {fileID: 2105359144}
+  Shop: {fileID: 618848683}
 --- !u!1 &238589454
 GameObject:
   m_ObjectHideFlags: 0
@@ -946,6 +1052,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Controller
       objectReference: {fileID: 0}
+    - target: {fileID: 1544650614272011804, guid: 88097b566ad1fdd489d7ee77465b57aa, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -1305,12 +1415,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishingDetector
   ready: 0
+  currentTime: 0
+  fishingTime: 0
+  fightingTime: 0
   PlayerControllerScript: {fileID: 2105359144}
   LureMovement: {fileID: 755383790}
   CameraFollow: {fileID: 1073803035}
   LineMovement: {fileID: 48153745}
   Lure: {fileID: 755383793}
   Line: {fileID: 48153744}
+  shopDetector: {fileID: 180712980}
 --- !u!61 &717685797
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1452,6 +1566,7 @@ MonoBehaviour:
   tableSlotThree: 0
   tableSlotFour: 0
   tableSlotFive: 0
+  customer: 0
   tableSlot: {fileID: 1126242585}
   tableSlot1: {fileID: 1318883678}
   tableSlot2: {fileID: 275115019}
@@ -3926,6 +4041,7 @@ SceneRoots:
   - {fileID: 2104354537}
   - {fileID: 788361154}
   - {fileID: 717685799}
+  - {fileID: 180712979}
   - {fileID: 409228909}
   - {fileID: 176775094}
   - {fileID: 930740364}

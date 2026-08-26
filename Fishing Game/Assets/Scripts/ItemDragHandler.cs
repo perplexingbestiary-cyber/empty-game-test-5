@@ -31,8 +31,12 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        canvasGroup.blocksRaycasts = true;
+        if (canvasGroup.enabled)
+        {
+             canvasGroup.blocksRaycasts = true;
         canvasGroup.alpha = 1f;
+        }
+       
 
         ShopSlot dropSlot = eventData.pointerEnter?.GetComponent<ShopSlot>();
       
@@ -146,31 +150,46 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             {
                 Item item = GetComponent<Item>();
                 RequestController requestController = GameObject.Find("Controllers").GetComponent<RequestController>();
-
+                //if(item == null) return;
                 int quantity = item.quantity;
 
                 if(item.ID == requestController.tableSlotOne)
                 {
                     transform.SetParent(tableDropSlot.transform);
                     tableDropSlot.currentItem = gameObject;
+
                     GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
 
                         if(quantity > 1)
                         {
-                            item.RemoveFromStack();
+                            item.RemoveFromStack(1);
 
                             transform.SetParent(originalParent);
 
                             GameObject newItem = item.CloneItem(1);
 
+                           // if(inventoryController == null || newItem == null) return;
+                           // if(/*tableDropSlot != null && */tableDropSlot.currentItem == null)
+                        {
+                            tableDropSlot.currentItem = newItem;
+                            //Debug.Log("table drop slot current item = new item");
                             newItem.transform.SetParent(tableDropSlot.transform);
-                    
+                            newItem.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
+                        }
+                            
+
                             RectTransform rectTransform = newItem.GetComponent<RectTransform>();
                             //item will not scale to 2x; happens occasionally but with no apparent consistency: Aug 25
                             rectTransform.localScale = new Vector3(2f, 2f, 2f);
-                            newItem.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                            
                     
                             GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
+                requestController.KillOne();
+                newItem.GetComponent<CanvasGroup>().enabled = false;
+                //Debug.Log("kill one");
+                return;
                         }
                         else
                         {
@@ -180,12 +199,16 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                             }
 
                             GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-                        }
+                            GetComponent<RectTransform>().localScale = new Vector3(2f, 2f, 2f);
+
                 requestController.KillOne();
-                canvasGroup.enabled = false;
+                //canvasGroup.enabled = false;
                 //Debug.Log("kill one");
                 return;
+                        }
+                
                 }
+                
                 else if(item.ID == requestController.tableSlotTwo)
                 {
                     transform.SetParent(tableDropSlot.transform);
@@ -200,14 +223,19 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
                             GameObject newItem = item.CloneItem(1);
 
+                            tableDropSlot.currentItem = newItem;
+                            Debug.Log("table drop slot current item = new item");
                             newItem.transform.SetParent(tableDropSlot.transform);
-                    
-                            RectTransform rectTransform = newItem.GetComponent<RectTransform>();
-                            
                             newItem.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                     
                             GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                            RectTransform rectTransform = newItem.GetComponent<RectTransform>();
                             rectTransform.localScale = new Vector3(2f, 2f, 2f);
+                newItem.GetComponent<CanvasGroup>().enabled = false;
+                //Debug.Log("kill one");
+                requestController.KillTwo();
+                return;
+                            
                         }
                         else
                         {
@@ -217,9 +245,10 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                             }
 
                             GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                            GetComponent<RectTransform>().localScale = new Vector3(2f, 2f, 2f);
                         }
                 requestController.KillTwo();
-                canvasGroup.enabled = false;
+                //canvasGroup.enabled = false;
                 return;
 
                 }                
@@ -237,14 +266,18 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
                             GameObject newItem = item.CloneItem(1);
 
+                            tableDropSlot.currentItem = newItem;
+                            Debug.Log("table drop slot current item = new item");
                             newItem.transform.SetParent(tableDropSlot.transform);
-                    
-                            RectTransform rectTransform = newItem.GetComponent<RectTransform>();
-                            
                             newItem.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                     
                             GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                            RectTransform rectTransform = newItem.GetComponent<RectTransform>();
                             rectTransform.localScale = new Vector3(2f, 2f, 2f);
+                newItem.GetComponent<CanvasGroup>().enabled = false;
+                //Debug.Log("kill one");
+                requestController.KillThree();
+                return;
                         }
                         else
                         {
@@ -254,10 +287,13 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                             }
 
                             GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-                        }
+                            GetComponent<RectTransform>().localScale = new Vector3(2f, 2f, 2f);
+
                 requestController.KillThree();
-                canvasGroup.enabled = false;
+                //canvasGroup.enabled = false;
                 return;
+                        }
+                
 
                 }  
                 else if(item.ID == requestController.tableSlotFour)
@@ -274,14 +310,18 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
                             GameObject newItem = item.CloneItem(1);
 
+                            tableDropSlot.currentItem = newItem;
+                            Debug.Log("table drop slot current item = new item");
                             newItem.transform.SetParent(tableDropSlot.transform);
-                    
-                            RectTransform rectTransform = newItem.GetComponent<RectTransform>();
-                            
                             newItem.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                     
                             GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                        RectTransform rectTransform = newItem.GetComponent<RectTransform>();
                             rectTransform.localScale = new Vector3(2f, 2f, 2f);
+                newItem.GetComponent<CanvasGroup>().enabled = false;
+                //Debug.Log("kill one");
+                requestController.KillFour();
+                return;
                         }
                         else
                         {
@@ -291,10 +331,13 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                             }
 
                             GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-                        }
+                            GetComponent<RectTransform>().localScale = new Vector3(2f, 2f, 2f);
+
                 requestController.KillFour();
-                canvasGroup.enabled = false;
+                //canvasGroup.enabled = false;
                 return;
+                        }
+                
 
                 }  
                 else if(item.ID == requestController.tableSlotFive)
@@ -311,14 +354,18 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
                             GameObject newItem = item.CloneItem(1);
 
+                            tableDropSlot.currentItem = newItem;
+                            Debug.Log("table drop slot current item = new item");
                             newItem.transform.SetParent(tableDropSlot.transform);
-                    
-                            RectTransform rectTransform = newItem.GetComponent<RectTransform>();
-                            rectTransform.localScale = new Vector3(2f, 2f, 2f);
-                            
                             newItem.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                     
                             GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                            RectTransform rectTransform = newItem.GetComponent<RectTransform>();
+                            rectTransform.localScale = new Vector3(2f, 2f, 2f);
+                newItem.GetComponent<CanvasGroup>().enabled = false;
+                //Debug.Log("kill one");
+                requestController.KillFive();
+                return;
                             
                         }
                         else
@@ -329,12 +376,16 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                             }
 
                             GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-                        }
+                            GetComponent<RectTransform>().localScale = new Vector3(2f, 2f, 2f);
+
                 requestController.KillFive();
-                canvasGroup.enabled = false;
+                //canvasGroup.enabled = false;
                 return;
+                        }
+                
 
                 }  
+            
             }
         }
     }

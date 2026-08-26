@@ -46,6 +46,10 @@ public class Item : MonoBehaviour
     {
         GameObject clone = Instantiate(prefab);
         Item cloneItem = clone.GetComponent<Item>();
+
+        //RectTransform rectTransform = cloneItem.GetComponent<RectTransform>();
+        //rectTransform.localScale = new Vector3(2f, 2f, 2f);
+
         cloneItem.quantity = newQuantity;
         cloneItem.UpdateQuantityDisplay();
         return clone;

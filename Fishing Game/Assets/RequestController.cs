@@ -8,6 +8,8 @@ public class RequestController : MonoBehaviour
     public int tableSlotFour;
     public int tableSlotFive;
 
+    public int customer;
+
     public TableSlot tableSlot;
     public TableSlot tableSlot1;
     public TableSlot tableSlot2;
@@ -30,17 +32,33 @@ public class RequestController : MonoBehaviour
     {
         if (reset)
         {
+            if(customer < 10)
+            {
             tableSlotOne = Random.Range(1, 3);
-            tableSlotThree = Random.Range(1, 3);
-            tableSlotTwo = Random.Range(1, 3);
-            tableSlotFour = Random.Range(1, 3);
-            tableSlotFive = Random.Range(1, 3);
+            tableSlotThree = Random.Range(0, 3);
+            tableSlotTwo = Random.Range(0, 3);
+            tableSlotFour = Random.Range(0, 3);
+            tableSlotFive = Random.Range(0, 3); 
 
             tableSlot.ClearSlot();
-        tableSlot1.ClearSlot();
-        tableSlot2.ClearSlot();
-        tableSlot3.ClearSlot();
-        tableSlot4.ClearSlot();
+            tableSlot1.ClearSlot();
+            tableSlot2.ClearSlot();
+            tableSlot3.ClearSlot();
+            tableSlot4.ClearSlot();
+            }
+            else
+            {
+            tableSlotOne = 0;
+            tableSlotThree = 0;
+            tableSlotTwo = 0;
+            tableSlotFour = 0;
+            tableSlotFive = 0; 
+
+            
+            }
+            
+
+        
             
             reset = false;
         }
@@ -48,6 +66,8 @@ public class RequestController : MonoBehaviour
         if(tableSlotOne == 0 && tableSlotThree == 0 && tableSlotTwo == 0 && tableSlotFour == 0 && tableSlotFive == 0)
         {
             reset = true;
+
+            customer += 1;
         }
         
     }

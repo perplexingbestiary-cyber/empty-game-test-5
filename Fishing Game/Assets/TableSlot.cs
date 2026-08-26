@@ -12,6 +12,6 @@ public class TableSlot : MonoBehaviour
             Destroy(child.gameObject);
         }
         
-        Debug.Log("current item is null");
+//        Debug.Log("current item is null");
     }
 }
