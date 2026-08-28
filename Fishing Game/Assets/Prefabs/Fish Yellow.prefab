@@ -110,9 +110,12 @@ MonoBehaviour:
   right: 0
   caught: 0
   landed: 0
+  destroyed: 0
+  night: 0
   Collider: {fileID: 8579323297331390707}
   lureScript: {fileID: 0}
   shopItem: {fileID: 4235169909513942744, guid: 29434bebba66f42d997fcca58cb7c844, type: 3}
+  Fish: {fileID: 3107351878554492358}
 --- !u!50 &-800032147922789998
 Rigidbody2D:
   serializedVersion: 5

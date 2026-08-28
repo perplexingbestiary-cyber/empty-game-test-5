@@ -16,6 +16,7 @@ public class FishMovement : MonoBehaviour
     public LureMovement lureScript;
 
     public GameObject shopItem;
+    public GameObject Fish;
 
     private InventoryController inventoryController;
 
@@ -43,6 +44,7 @@ public class FishMovement : MonoBehaviour
         {
             destroyed = true;
             //night = false;
+            Destroy(Fish);
             Destroy(gameObject);
         }
 
@@ -50,12 +52,12 @@ public class FishMovement : MonoBehaviour
         {
             if(!right)
             {
-                transform.position = Vector3.MoveTowards(transform.position, transform.position + transform.right, Time.deltaTime * (speed + Random.Range(0f, 0.2f))); 
+                transform.position = Vector3.MoveTowards(transform.position, transform.position + transform.right, Time.deltaTime * (speed + Random.Range(0f, 0.5f))); 
 
             }
             else if(right)
             {
-                transform.position = Vector3.MoveTowards(transform.position, transform.position + -transform.right, Time.deltaTime * (speed + Random.Range(0f, 0.2f))); 
+                transform.position = Vector3.MoveTowards(transform.position, transform.position + -transform.right, Time.deltaTime * (speed + Random.Range(0f, 0.5f))); 
 
             }
         }
@@ -92,7 +94,7 @@ public class FishMovement : MonoBehaviour
                     transform.position = lure.transform.position;
                 }
                 
-                transform.rotation = Quaternion.Euler(0, 0, 90); 
+                transform.rotation = Quaternion.Euler(0, 0, -90); 
 
                 lureScript.Full();
             }
@@ -105,6 +107,7 @@ public class FishMovement : MonoBehaviour
 
     public void KillFish()
     {
+        Destroy(Fish);
         Destroy(gameObject);
     }
 

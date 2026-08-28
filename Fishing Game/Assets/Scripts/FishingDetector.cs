@@ -66,6 +66,7 @@ void Update()
         {
             StartFishing();
             StartFishingTime();
+
             currentTime = 0;
         }
     
@@ -101,6 +102,7 @@ public void StartFishing()
 public void StartFishingTime()
     {
         fishingTime = true;
+        fightingTime = false;
         shopDetector.StartFishingTime();
     }
 public void StopFishingTime()
