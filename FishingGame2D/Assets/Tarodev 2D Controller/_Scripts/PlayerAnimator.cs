@@ -23,17 +23,17 @@ namespace TarodevController
         [SerializeField] private ParticleSystem _moveParticles;
         [SerializeField] private ParticleSystem _landParticles;
 
-        [Header("Audio Clips")] [SerializeField]
-        private AudioClip[] _footsteps;
+       // [Header("Audio Clips")] [SerializeField]
+       // private AudioClip[] _footsteps;
 
-        private AudioSource _source;
+      //  private AudioSource _source;
         private IPlayerController _player;
         private bool _grounded;
         private ParticleSystem.MinMaxGradient _currentGradient;
 
         private void Awake()
         {
-            _source = GetComponent<AudioSource>();
+           // _source = GetComponent<AudioSource>();
             _player = GetComponentInParent<IPlayerController>();
         }
 

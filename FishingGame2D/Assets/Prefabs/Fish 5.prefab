@@ -65,6 +65,10 @@ PrefabInstance:
       value: 0.065089226
       objectReference: {fileID: 0}
     - target: {fileID: 2293050347685322775, guid: cef6be7dbfb7e4334841227ab11df878, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 4058248615581402067, guid: f947173a614604c5ab5baa7a225c1f1a, type: 3}
+    - target: {fileID: 2293050347685322775, guid: cef6be7dbfb7e4334841227ab11df878, type: 3}
       propertyPath: shopItem
       value: 
       objectReference: {fileID: 2413504435602090876, guid: f947173a614604c5ab5baa7a225c1f1a, type: 3}

@@ -23,7 +23,7 @@ public class CrawfishMovement : MonoBehaviour
     {
             if(!right)
             {
-                transform.position = Vector3.MoveTowards(transform.position, transform.position + transform.right, speed * Time.deltaTime); 
+                transform.position = Vector3.MoveTowards(transform.position, transform.position + -transform.right, speed * Time.deltaTime); 
 
             }
             else if(right)

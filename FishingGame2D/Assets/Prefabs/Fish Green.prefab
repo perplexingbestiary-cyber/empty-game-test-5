@@ -168,6 +168,7 @@ MonoBehaviour:
   lureScript: {fileID: 0}
   facingRight: 0
   shopItem: {fileID: 4235169909513942744, guid: 8d4126321f5374f6ca3919f47371eff4, type: 3}
+  item: {fileID: 2587861670568615543, guid: 8d4126321f5374f6ca3919f47371eff4, type: 3}
 --- !u!50 &8687652446682639526
 Rigidbody2D:
   serializedVersion: 5

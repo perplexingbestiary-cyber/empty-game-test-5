@@ -65,8 +65,10 @@ public class InventoryController : MonoBehaviour
 
     public bool AddItem(GameObject itemPrefab)
     {
+        
         Item itemToAdd = itemPrefab.GetComponent<Item>();
         if (itemToAdd == null) return false;
+        
 
         //checks to see if fish type already exists
         foreach(Transform slotTransform in inventoryPanel.transform)
@@ -74,10 +76,16 @@ public class InventoryController : MonoBehaviour
             ShopSlot slot = slotTransform.GetComponent<ShopSlot>();
             if (slot != null && slot.currentItem != null)
             {
+                
                 Item slotItem = slot.currentItem.GetComponent<Item>();
+                if(slotItem.ID == 5)
+                {
+                    
+                }
                 if(slotItem != null && slotItem.ID == itemToAdd.ID)
                 {
                     slotItem.AddToStack();
+                    
                     return true;
                 }
             }

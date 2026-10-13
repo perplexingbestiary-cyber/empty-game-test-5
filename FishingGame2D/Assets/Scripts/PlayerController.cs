@@ -13,7 +13,16 @@ namespace TarodevController
     [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
     public class PlayerController : MonoBehaviour, IPlayerController
     {
+    [Header("FMOD Settings")]
+    /*[FMODUnity.EventRef]*/private string FootstepsEventPath;
+    private float StepRandom;  
+    private Vector3 PrevPos;
+    private float DistanceTravelled;
+    [SerializeField] private float StepDistance = 4.0f;
+    private float TimeTakenSinceStep;
+    
         [SerializeField] private ScriptableStats _stats;
+        [SerializeField] public Animator animator;
         private Rigidbody2D _rb;
         private CapsuleCollider2D _col;
         private FrameInput _frameInput;
@@ -36,13 +45,45 @@ namespace TarodevController
             _col = GetComponent<CapsuleCollider2D>();
 
             _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
+
+            QualitySettings.vSyncCount = 0; // Set vSyncCount to 0 so that using .targetFrameRate is enabled.
+            Application.targetFrameRate = 60;
         }
+        public void WoodenFootsteps()
+        {
+            FootstepsEventPath = "event:/WoodenFootstep";
+        }
+        public void GrassFootsteps()
+        {
+            FootstepsEventPath = "event:/GrassFootstep";
+        }
+        
 
         private void Update()
         {
             _time += Time.deltaTime;
             GatherInput();
+            TimeTakenSinceStep += Time.deltaTime;                                
+        DistanceTravelled += (transform.position - PrevPos).magnitude;        
+        
+        if (DistanceTravelled >= StepDistance)// + StepRandom)                  // If the distance the player has travlled is greater than or equal to the StepDistance plus the StepRandom, then we can perform our methods.
+        {
+            TimeTakenSinceStep = 0;                                                  // The SpeedCheck method is performed. This checks for the time it took between this step and the last tot hen update the 'F_PlayerRunning' variable with for our 'PlayFootstep()' method to use.
+            PlayFootstep();                                                  // The PlayFootstep method is performed and a footstep audio file from FMOD is played!
+            //StepRandom = Random.Range(0f, 0.3f);                             // Now that our footstep has been played, this will reset 'StepRandom' and give it a new random value between 0 and 0.5, in order to make the distance the player has to travel to hear a footstep different from what it previously was.
+            DistanceTravelled = 0f;                                          // Since the player has just taken a step, we need to set the 'DistanceTravelled' float back to 0.
         }
+        PrevPos = transform.position; 
+        }
+
+        void PlayFootstep()
+    {
+        FMOD.Studio.EventInstance Footstep = FMODUnity.RuntimeManager.CreateInstance(FootstepsEventPath);        // If they are, we create an FMOD event instance. We use the event path inside the 'FootstepsEventPath' variable to find the event we want to play.
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(Footstep, gameObject, GetComponent<Rigidbody>());     // Next that event instance is told to play at the location that our player is currently at.
+        Footstep.start();                                                                                        // We then play a footstep!.
+        Footstep.release();
+        
+    }
 
         private void GatherInput()
         {
@@ -64,18 +105,27 @@ namespace TarodevController
                 _jumpToConsume = true;
                 _timeJumpWasPressed = _time;
             }
+            if(_frameInput.Move.x != 0)
+            {
+                animator.SetBool("Walking", true);
+            }
+            else
+            {
+                 animator.SetBool("Walking", false);
+            }
         }
 
         private void FixedUpdate()
         {
             CheckCollisions();
-
+            
             HandleJump();
             HandleDirection();
             HandleGravity();
             
             ApplyMovement();
         }
+         
 
         #region Collisions
         
@@ -209,4 +259,6 @@ namespace TarodevController
         public event Action Jumped;
         public Vector2 FrameInput { get; }
     }
+    
+   
 }

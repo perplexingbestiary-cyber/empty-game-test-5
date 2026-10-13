@@ -5,6 +5,9 @@ public class LineMovement : MonoBehaviour
     public float speed = 1f;
     public float scaling;
     public LureMovement lureMovement;
+ 
+    public string CutLine;
+    public float width;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -28,22 +31,24 @@ public class LineMovement : MonoBehaviour
             transform.position = new Vector3(-41f, -(0.5f * lureMovement.lineLength - 0.3f), 0.1f);
         }
 
-        transform.localScale = new Vector3(0.1f, -scaling * (transform.position.y - 0.6f), 0.1f);
+        transform.localScale = new Vector3(width, -scaling * (transform.position.y - 0.6f), 0.1f);
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Crawfish"))
         {
+            FMODUnity.RuntimeManager.PlayOneShotAttached(CutLine, gameObject);
             transform.position = new Vector3(-41f, 0.6f, 0.1f);
             lureMovement.ResetLure();
             lureMovement.LineCut();
+            
         }
     }
 
     public void ResetLine()
     {
         transform.position = new Vector3(-41f, 0.6f, 0.1f);
-        transform.localScale = new Vector3(0.1f, -scaling*(transform.position.y - 0.6f), 0.1f);
+        transform.localScale = new Vector3(width, -scaling*(transform.position.y - 0.6f), 0.1f);
     }
 }

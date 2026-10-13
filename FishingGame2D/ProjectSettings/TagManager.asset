@@ -8,6 +8,10 @@ TagManager:
   - Barrel
   - Crawfish
   - Lure
+  - LureAudio
+  - BigFish
+  - SpecLure
+  - Detector
   layers:
   - Default
   - TransparentFX

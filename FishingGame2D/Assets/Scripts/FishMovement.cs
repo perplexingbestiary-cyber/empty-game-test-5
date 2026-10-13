@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class FishMovement : MonoBehaviour
@@ -9,6 +10,8 @@ public class FishMovement : MonoBehaviour
     public bool landed;
     public bool destroyed;
     public bool night;
+
+    public string Catch;
 
     private GameObject lure;
     private Rigidbody2D rb;
@@ -22,13 +25,19 @@ public class FishMovement : MonoBehaviour
     //public float moveX;
 
     public GameObject shopItem;
+    public Item item;
     //public GameObject Fish;
 
     private InventoryController inventoryController;
+    private RequestController requestController;
+    private CameraFollow cameraFollow;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        QualitySettings.vSyncCount = 0; // Set vSyncCount to 0 so that using .targetFrameRate is enabled.
+        Application.targetFrameRate = 60;
+        
         if(transform.position.x >= -26f){
             right = true;
         }
@@ -42,6 +51,10 @@ public class FishMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         inventoryController = FindAnyObjectByType<InventoryController>();
+        requestController = FindAnyObjectByType<RequestController>();
+        cameraFollow = FindAnyObjectByType<CameraFollow>();
+
+        
     }
 
     // Update is called once per frame
@@ -76,22 +89,53 @@ public class FishMovement : MonoBehaviour
         {
             
             //boxCollider.enabled = true;
+            //the following is for when the fish is caught and landed
             if(transform.position.y >= 0.5f && !landed)
-
             {
-                //boxCollider.enabled = false;
+                
+                //KillFish();
+                //the following is only used when you want the fish to fall to the ground
+
                 transform.position = new Vector3(-37f, 3f, 0f);
                 rb.gravityScale = 1f;
                 landed = true;
                 Collider.enabled = true;
 
+
+                FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Land", gameObject);
+                
+                
+                
                 lureScript.Empty();
                 Invoke(nameof(KillFish), 10);
+                
+                
 /*
                 Item item = GetComponent<Item>();
                 if(item != null)
                 {
                 */
+                    Debug.Log(item.ID);
+                    if(item.ID == 1)
+                {
+                    requestController.Fish1();
+                }
+                else if(item.ID == 2)
+                {
+                    requestController.Fish2();
+                }
+                else if(item.ID == 3)
+                {
+                    requestController.Fish3();
+                }
+                else if(item.ID == 4)
+                {
+                    requestController.Fish4();
+                }
+                else if(item.ID == 5)
+                {
+                    requestController.Fish5();
+                }
                     bool itemAdded = inventoryController.AddItem(shopItem);
 
                     if (itemAdded)
@@ -133,7 +177,7 @@ public class FishMovement : MonoBehaviour
     public void FlipSprite()
     {
 
-        //spriteRenderer.flipX = !facingRight;
+        //spriteRenderer.flipX = !facingRight; 
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -141,17 +185,24 @@ public class FishMovement : MonoBehaviour
         if (other.gameObject.CompareTag("Lure"))
         {
             caught = true;
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Catch", gameObject);
+            cameraFollow.Shake();
+
         }
         
 
         if (other.gameObject.CompareTag("Barrel"))
         {
-            KillFish();
+            
 
             if (caught)
             {
+                KillFish();
+                FMODUnity.RuntimeManager.PlayOneShotAttached("event:/BarrelBump", gameObject);
                 //landed = true;
                 lureScript.Empty();
+
+                
             }
         }
 
@@ -163,7 +214,7 @@ public class FishMovement : MonoBehaviour
             {
                 
                 lureScript.Empty();
-                lureScript.LineCut();
+                //lureScript.LineCut();
             }
         }
     }

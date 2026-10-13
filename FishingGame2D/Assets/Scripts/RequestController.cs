@@ -5,13 +5,27 @@ using UnityEngine.UI;
 
 public class RequestController : MonoBehaviour
 {
-    public int dayCount;
-    public TMP_Text Day;
+    //public int dayCount;
+    //public TMP_Text Day;
+    public int jamCount;
+    public TMP_Text Jam;
+
+    public JamAnimation jamAnimation;
 
     public float CurrentMoney;
     //public GameObject Money;
     public TMP_Text Money;
+    
     public float purchaseAmount;
+    public float fish1PurchaseAmount = 10;
+    public float fish2PurchaseAmount = 12;
+    public float fish3PurchaseAmount = 7;
+    public float fish4PurchaseAmount = 15;
+    public float fish5PurchaseAmount = 17;
+
+    public float specLure = 0;
+
+    public int jamPurchaseAmount;
 
     public int tableSlotOne;
     public int tableSlotTwo;
@@ -22,8 +36,14 @@ public class RequestController : MonoBehaviour
     public float fish1cost;
     public float fish2cost;
     public float fish3cost;
-    public float fish4cost;
+    public float fish4cost; 
     public float fish5cost;
+
+    public TMP_Text fish1Text;
+    public TMP_Text fish2Text;
+    public TMP_Text fish3Text;
+    public TMP_Text fish4Text;
+    public TMP_Text fish5Text;
 
     public int customer;
 
@@ -49,10 +69,14 @@ public class RequestController : MonoBehaviour
     public Button fish4Button;
     public Button fish5Button;
 
+    public Button jamButton;
+
     public Button lineButton;
     public Button lineLengthButton;
     public Button crawfishTimeButton;
     public Button barrelTimeButton;
+    public Button lineSpeedButton;
+    public Button specLureButton;
 
     public Button skipCustomerButton;
 
@@ -64,6 +88,7 @@ public class RequestController : MonoBehaviour
     public Button endDayButton;
 
     public LureMovement lureMovement;
+    public LineMovement lineMovement;
     public ObstacleSpawner obstacleSpawner;
 
     public GameObject BackgroundMiddle;
@@ -74,86 +99,194 @@ public class RequestController : MonoBehaviour
     public GameObject EndDayButton;
     public GameObject SkipCustomer;
 
+    public int lineLength = 0;
+    public int lineSpeed = 0;
+
+    public TMP_Text speedLevel;
+public TMP_Text lengthLevel;
+
+public GameObject Lure1;
+public GameObject Lure2;
+public GameObject Lure3;
+public GameObject SpecLure;
+
+
 
 
     public void Awake()
     {
-        fish1Button.onClick.AddListener(() =>
+        jamButton.onClick.AddListener(() =>
         {
             purchaseAmount = 10f;
-
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Select", gameObject);
             if(CurrentMoney >= purchaseAmount)
+            {
+                
+                Purchase();
+                jamCount += 1;
+                Jam.GetComponent<TMP_Text>().text = "" + jamCount;
+
+            }
+        });
+        fish1Button.onClick.AddListener(() =>
+        {
+            purchaseAmount = fish1PurchaseAmount;
+
+            if(CurrentMoney >= fish1PurchaseAmount)
             {
                 Purchase();
                 fish1cost += 1f;
+                fish1PurchaseAmount += 1f;
+                fish1Text.GetComponent<TMP_Text>().text = "$" + fish1PurchaseAmount;
 
             }
         });
         fish2Button.onClick.AddListener(() =>
         {
-            purchaseAmount = 12f;
+            purchaseAmount = fish2PurchaseAmount;
 
-            if(CurrentMoney >= purchaseAmount)
+            if(CurrentMoney >= fish2PurchaseAmount)
             {
                 Purchase();
                 fish2cost += 1f;
+                fish2PurchaseAmount += 1f;
+                fish2Text.GetComponent<TMP_Text>().text = "$" + fish2PurchaseAmount;
 
             }
         });
         fish3Button.onClick.AddListener(() =>
         {
-            purchaseAmount = 7f;
+            purchaseAmount = fish3PurchaseAmount;
 
-            if(CurrentMoney >= purchaseAmount)
+            if(CurrentMoney >= fish3PurchaseAmount)
             {
                 Purchase();
                 fish3cost += 1f;
+                fish3PurchaseAmount += 1f;
+                fish3Text.GetComponent<TMP_Text>().text = "$" + fish3PurchaseAmount;
 
             }
         });
         fish4Button.onClick.AddListener(() =>
         {
-            purchaseAmount = 15f;
+           purchaseAmount = fish4PurchaseAmount;
 
-            if(CurrentMoney >= purchaseAmount)
+            if(CurrentMoney >= fish4PurchaseAmount)
             {
                 Purchase();
                 fish4cost += 1f;
+                fish4PurchaseAmount += 1f;
+                fish4Text.GetComponent<TMP_Text>().text = "$" + fish4PurchaseAmount;
 
             }
         });
         fish5Button.onClick.AddListener(() =>
         {
-            purchaseAmount = 17f;
+            purchaseAmount = fish5PurchaseAmount;
 
-            if(CurrentMoney >= purchaseAmount)
+            if(CurrentMoney >= fish5PurchaseAmount)
             {
                 Purchase();
                 fish5cost += 1f;
+                fish5PurchaseAmount += 1f;
+                fish5Text.GetComponent<TMP_Text>().text = "$" + fish5PurchaseAmount;
 
             }
         });
         lineButton.onClick.AddListener(() =>
         {
-            purchaseAmount = 5f;
-
+            purchaseAmount = 50f;
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Select", gameObject);
+            if(lureMovement.line < 3)
+            {
+                
+            
             if(CurrentMoney >= purchaseAmount)
             {
+                
                 Purchase();
+       
+        
                 lureMovement.line += 1;
+        if(lureMovement.line == 0)
+        {
+            Lure1.SetActive(false);
+            Lure2.SetActive(false);
+            Lure3.SetActive(false);
+        }
+        else if(lureMovement.line == 1)
+        {
+            Lure1.SetActive(true);
+            Lure2.SetActive(false);
+            Lure3.SetActive(false);
+        }
+        else if(lureMovement.line == 2)
+        {
+            Lure1.SetActive(true);
+            Lure2.SetActive(true);
+            Lure3.SetActive(false);
+        }
+        else if(lureMovement.line == 3)
+        {
+            Lure1.SetActive(true);
+            Lure2.SetActive(true);
+            Lure3.SetActive(true);
+        }
+            }
 
             }
         });
         lineLengthButton.onClick.AddListener(() =>
         {
-            purchaseAmount = 20f;
-
-            if(CurrentMoney >= purchaseAmount)
+            jamPurchaseAmount = 20;
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Select", gameObject);
+            if(lineLength < 3)
             {
-                Purchase();
-                lureMovement.lineLength += 3;
+                /*
+                if(CurrentMoney >= purchaseAmount)
+                {
+                    Purchase();
+                    lureMovement.lineLength += 3;
+                    lineLength += 1;
+                } 
+                */
+                if(jamCount >= jamPurchaseAmount)
+                {
+                    JamPurchase();
+                    lureMovement.lineLength += 3.5f;
+                    lineLength += 1;
+                    lengthLevel.text = "Lv." + (lineLength + 1);
+                    
 
+                }
             }
+            
+        });
+        lineSpeedButton.onClick.AddListener(() =>
+        {
+            jamPurchaseAmount = 20;
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Select", gameObject);
+            if(lineSpeed < 5)
+            {
+                /*
+                if(CurrentMoney >= purchaseAmount)
+                {
+                    Purchase();
+                    lureMovement.speed *= 1.1f;
+                    lineMovement.speed *= 1.1f;
+                    lineSpeed += 1;
+                }
+                */
+                if(jamCount >= jamPurchaseAmount)
+                {
+                    JamPurchase();
+                    lureMovement.speed *= 1.1f;
+                    lineMovement.speed *= 1.1f;
+                    lineSpeed += 1;
+                    speedLevel.text = "Lv." + (lineSpeed + 1);
+                }
+            }
+            
         });
         barrelTimeButton.onClick.AddListener(() =>
         {
@@ -177,6 +310,40 @@ public class RequestController : MonoBehaviour
 
             }
         });
+        specLureButton.onClick.AddListener(() =>
+        {
+            jamPurchaseAmount = 100;
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Select", gameObject);
+/*
+            if(CurrentMoney >= purchaseAmount)
+            {
+                Purchase();
+                lureMovement.specLure += 1;
+
+            }
+            */
+            if(lureMovement.specLure < 1)
+            {
+                if(jamCount >= jamPurchaseAmount)
+            {
+                JamPurchase();
+                
+                lureMovement.specLure += 1;
+                if(lureMovement.specLure == 1)
+            {
+                SpecLure.SetActive(true);
+            }
+            else
+            {
+                SpecLure.SetActive(false);
+            }
+                //specLure += 1;
+
+            }
+            }
+             
+        });
+        /*
         installmentButton.onClick.AddListener(() =>
         {
             purchaseAmount = installmentAmount;
@@ -194,6 +361,7 @@ public class RequestController : MonoBehaviour
                 endDayReady = true;
             }
         });
+        
         endDayButton.onClick.AddListener(() =>
         {
 
@@ -231,7 +399,7 @@ public class RequestController : MonoBehaviour
 
             Money.GetComponent<TMP_Text>().text = "$" + CurrentMoney;
         });
-
+*/
             
     }
 
@@ -239,23 +407,33 @@ public class RequestController : MonoBehaviour
     {
         CurrentMoney -= purchaseAmount;
         Money.GetComponent<TMP_Text>().text = "$" + CurrentMoney;
-    } 
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Purchase", gameObject);
+    }
+    public void JamPurchase()
+    {
+        jamCount -= jamPurchaseAmount;
+        Jam.GetComponent<TMP_Text>().text = "" + jamCount;
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Purchase", gameObject);
+    }
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        dayCount = 1;
-        Day.GetComponent<TMP_Text>().text = "Day " + dayCount;
+        //dayCount = 1;
+        //Day.GetComponent<TMP_Text>().text = "Day " + dayCount;
+        jamCount = 0;
+        Jam.GetComponent<TMP_Text>().text = "" + jamCount;
 
         //modify based off of save controller later
         installmentAmount = 5f;
         installmentAmount = Mathf.Ceil(installmentAmount * 100f) / 100f;
 
-        fish1cost = 2f;
-        fish2cost = 4f;
-        fish3cost = 1f;
-        fish4cost = 6f;
-        fish5cost = 9f;
+        fish1cost = 20f;
+        fish2cost = 40f;
+        fish3cost = 10f;
+        fish4cost = 60f;
+        fish5cost = 90f;
 
         tableSlotOne = 0;
         tableSlotThree = 0;
@@ -266,11 +444,17 @@ public class RequestController : MonoBehaviour
         CurrentMoney = 0;
 
         Money.GetComponent<TMP_Text>().text = "$" + CurrentMoney;
+
+        fish1Text.GetComponent<TMP_Text>().text = "$" + fish1PurchaseAmount;
+        fish2Text.GetComponent<TMP_Text>().text = "$" + fish2PurchaseAmount;
+        fish3Text.GetComponent<TMP_Text>().text = "$" + fish3PurchaseAmount;
+        fish4Text.GetComponent<TMP_Text>().text = "$" + fish4PurchaseAmount;
+        fish5Text.GetComponent<TMP_Text>().text = "$" + fish5PurchaseAmount;
     }
 
     void Update()
     {
-        
+        /*
         if (menuOpen && EndDayButton.activeSelf || !endDayReady)
         {
             EndDayButton.SetActive(false);
@@ -339,7 +523,7 @@ public class RequestController : MonoBehaviour
             customer += 1;
         }
         }
-        
+        */
         
     }
 
@@ -480,5 +664,74 @@ public class RequestController : MonoBehaviour
     public void MenuClosed()
     {
         menuOpen = false;
+    }
+    public void JamCaught()
+    {
+        jamCount += 1;
+        Jam.GetComponent<TMP_Text>().text = "" + jamCount;
+    }
+    public void Fish1()
+    {
+        int jamChance = Random.Range(0, 10);
+                if(jamChance == 1)
+                {
+                    jamAnimation.Jam();
+                    jamCount += 1;
+                    Jam.GetComponent<TMP_Text>().text = "" + jamCount;
+                }
+        CurrentMoney += fish1cost;
+        Money.GetComponent<TMP_Text>().text = "$" + CurrentMoney;
+    }
+    public void Fish2()
+    {
+        int jamChance = Random.Range(0, 8);
+                if(jamChance == 1)
+                {
+                    jamAnimation.Jam();
+                    jamCount += 1;
+                    Jam.GetComponent<TMP_Text>().text = "" + jamCount;
+                }
+        CurrentMoney += fish2cost;
+        Money.GetComponent<TMP_Text>().text = "$" + CurrentMoney;
+    }
+    public void Fish3()
+    {
+        int jamChance = Random.Range(0, 9);
+                if(jamChance == 1)
+                {
+                    jamAnimation.Jam();
+                    jamCount += 1;
+                    Jam.GetComponent<TMP_Text>().text = "" + jamCount;
+                }
+        CurrentMoney += fish3cost;
+        Money.GetComponent<TMP_Text>().text = "$" + CurrentMoney;
+    }
+    public void Fish4()
+    {
+        int jamChance = Random.Range(0, 5);
+                if(jamChance == 1)
+                {
+                    jamAnimation.Jam();
+                    jamCount += 1;
+                    Jam.GetComponent<TMP_Text>().text = "" + jamCount;
+                }
+        CurrentMoney += fish4cost;
+        Money.GetComponent<TMP_Text>().text = "$" + CurrentMoney;
+    }
+    public void Fish5()
+    {
+        int jamChance = Random.Range(0, 3);
+                if(jamChance == 1)
+                {
+                    jamAnimation.Jam();
+                    jamCount += 1;
+                    Jam.GetComponent<TMP_Text>().text = "" + jamCount;
+                }
+        CurrentMoney += fish5cost;
+        Money.GetComponent<TMP_Text>().text = "$" + CurrentMoney;
+    }
+    public void FishJam()
+    {
+        jamAnimation.Jam();
     }
 }

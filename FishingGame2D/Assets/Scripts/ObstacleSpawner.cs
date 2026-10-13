@@ -21,7 +21,7 @@ public class ObstacleSpawner : MonoBehaviour
     }
 
 
-    void Update()
+    void Update() 
     {
         currentTime1 += Time.deltaTime;
         currentTime2 += Time.deltaTime;
@@ -50,7 +50,7 @@ public class ObstacleSpawner : MonoBehaviour
             }
             else if(barrelSpawnX != 0)
             {
-                Instantiate(Crawfish, new Vector3(-56f, barrelSpawnY, 0), Quaternion.identity);
+                Instantiate(Crawfish, new Vector3(-56f, barrelSpawnY, 0), Quaternion.Euler(0, 180, 0));
             }
             currentTime2 = 0;
         }
